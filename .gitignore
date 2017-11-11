@@ -1,0 +1,18 @@
+# IDEA
+.idea
+out
+*.iml
+
+# Gradle
+.gradle
+build
+
+# Maven
+target
+
+# Sublime
+*.sublime-project
+*.sublime-workspace
+
+# OS X
+.DS_Store
