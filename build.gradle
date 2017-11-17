@@ -2,7 +2,7 @@ group 'de.stefanscheidt.learn'
 version '1.0.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlinVersion = '1.1.51'
+    ext.kotlinVersion = '1.1.60'
 
     repositories {
         mavenCentral()
