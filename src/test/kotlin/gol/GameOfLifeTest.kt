@@ -3,7 +3,7 @@ package gol
 import org.junit.Test
 
 
-class GamoOfLifeTest {
+class GameOfLifeTest {
 
     @Test
     fun firstTest() {
