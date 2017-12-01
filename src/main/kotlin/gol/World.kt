@@ -1,26 +1,27 @@
 package gol
 
-data class World(private val livingCells: Set<Pos> = emptySet()) {
+fun world(vararg livingCellCoordinates: Coordinate) = World(setOf(*livingCellCoordinates))
 
-    constructor(vararg livingCells: Pos): this(setOf(*livingCells))
+fun willLive(isAlive: Boolean, livingNeighboursCount: Int) =
+        when (isAlive) {
+            true -> setOf(2, 3).contains(livingNeighboursCount)
+            false -> setOf(3).contains(livingNeighboursCount)
+        }
 
-    internal val ruleSet: RuleSet = DefaultRuleSet()
+data class World(private val livingCellCoordinates: Set<Coordinate> = emptySet<Coordinate>()) {
+
+    fun isEmpty() = livingCellCoordinates.isEmpty()
+
+    fun candidates(): Set<Coordinate> = livingCellCoordinates
+            .flatMap { it.neighbours().plus(it) }
+            .toSet()
+
+    fun livingNeighboursCount(c: Coordinate) = c.neighbours()
+            .intersect(livingCellCoordinates)
+            .size
 
     fun tick() = World(candidates()
-            .filter { ruleSet.willBeAlive(isAliveAt(it), livingNeighboursCountAt(it)) }
+            .filter { willLive(livingCellCoordinates.contains(it), livingNeighboursCount(it)) }
             .toSet())
-
-    internal fun livingNeighboursCountAt(pos: Pos) = pos
-            .neighbours()
-            .filter { isAliveAt(it) }
-            .count()
-
-    internal fun candidates() = livingCells
-            .map { it.neighbours().plus(it) }
-            .flatMap { it }
-
-    private fun isAliveAt(it: Pos) = livingCells.contains(it)
-
-    override fun toString() = livingCells.toString()
 
 }
